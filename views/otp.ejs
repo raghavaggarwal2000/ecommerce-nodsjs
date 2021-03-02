@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <%- include('./partials/head.ejs')%>  
+<link rel="stylesheet" href="./css/otp.css">
+<body>
+  <div class="header">
+    <a href="/">
+        <img src="./image/logo.png"  class="img-fluid">
+    </a>    
+</div>
+  <div class="otp-container">
+    <h1>OTP</h1>
+      <form method="POST" action="/otp">
+        <fieldset>
+          <input type="number" name="otp" required>
+          <label class="label-otp" for="otp"> 
+           <span><i class="fa fa-key"></i> Enter OTP</span></label>
+        </fieldset>
+       
+          <div class="error"></div><br>
+          <button class="button">Submit</button>
+      </form>
+    </div>
+
+
+  <script>
+    const form = document.querySelector('form');
+    
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const error_otp = document.querySelector('.error');
+      const otp = form.otp.value;
+     
+      try{
+                const res = await fetch('/otp',{
+                    method: 'POST',
+                    body: JSON.stringify({otp}),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const data = await res.json();
+            console.log(data);
+            if(data.error){
+              error_otp.textContent = data.error;
+            }     
+              if (data.user ) {
+location.assign('/');
+}else if(data.seller){
+location.assign('/seller');
+}
+                
+
+    }
+    catch(err){
+      console.log(err);
+    }
+  });
+ </script>
+      <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

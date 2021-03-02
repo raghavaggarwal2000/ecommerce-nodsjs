@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,600&display=swap');
+.top-bar{
+  display: flex;
+  justify-content: space-between;
+}
+.header{
+  width: 100%;
+display: flex;
+    justify-content: center;
+
+  }
+.header img{
+  width: 130px;
+}
+.signup{
+    margin: 50px auto;
+    width: 800px;
+    height: 460px;
+    display: flex;
+    background-color: white;
+    position: relative;
+    border-radius: 20px;
+    box-shadow: 
+    /* logo shadow */
+    0px 0px 2px #5f5f5f,
+    /* offset */
+    0px 0px 0px 5px #ecf0f3,
+    /*bottom right */
+    8px 8px 15px #a7aaaf,
+    /* top left */
+    -8px -8px 15px #ffffff
+    ;
+}
+.signup form{
+  margin: 0 auto;
+  width: 650px;
+}
+.signup h1{
+  text-align: center;
+  color: #7a0031;
+  font-weight: normal;
+  font-family: Georgia;
+}
+.choose{
+  color: #7a0031;
+  font-family: Georgia;
+  font-size: 18px;
+}
+.signup .radio-container{
+  display: flex;
+  justify-content: space-around;
+}
+.radio-container label {
+  color: #7a0031;
+  font-weight: bold;
+}
+
+.signup-input:focus ~ label, .signup-input:valid ~ label, .signup-input:focus + .signup-label
+{
+  font-size: 10px;
+  color: #7a0031;
+  text-transform: uppercase;
+  transform: translateY(-75%);
+}
+
+.signup form .signup-label{
+    color: #999;
+    padding: 8px 10px;
+    position: absolute;
+   bottom: 0px;
+   left: 0;
+    -webkit-transition: all 0.25s cubic-bezier(0.2, 0, 0.03, 1);
+    transition: all 0.25s cubic-bezier(0.2, 0, 0.03, 1);
+    pointer-events: none;
+    font-size: 12px;
+    margin-bottom: 0;
+}
+fieldset{
+  position: relative;
+}
+.signup-input{
+  margin-top: 15px;
+  padding: 5px; 
+  border: none;
+  outline: none;
+  box-shadow: inset 8px 8px 8px #cbced1,
+              inset -8px -8px 8px #cbced1;
+  border-radius: 10px;
+  background-color: transparent;
+  width: 90%;
+  font-size: 14px;
+  /* border-bottom: 1px solid black; */
+  
+}
+.submit{
+  outline: none;
+  border:none;
+  cursor: pointer;
+  width:50%;
+  height: 35px;
+  border-radius: 30px;
+  margin: 0 auto;
+  font-size: 19px;
+  font-family: 'Lato', sans-serif;
+  color:#fff;
+  text-align: center;
+  background: #24cfaa;
+  box-shadow: 3px 3px 8px #b1b1b1,
+              -3px -3px 8px #ffffff;
+  transition: 0.5s;
+}
+.error_email ,.error_password{
+  font-size: 10px;
+  height: 10px;
+  color: #7a0031;
+  font-family: Open sans;
+  margin: 0;
+  padding: 0;
+}
+.left{
+  flex: 50%;
+}
+.right{
+  flex: 50%;
+}
+.sign-in-container{
+  display: flex; width: 100%;justify-content: center; margin-top: 20px;
+}
+.sign-in-container a{
+  color: #7a0031;
+  font-size: 14px;
+  font-weight: bold;
+}

@@ -1,0 +1,26 @@
+.col-md-6, .col-12{
+    margin-top: 20px;
+}
+table{
+    width: 100%;
+    border: 1px solid black;
+}
+fieldset{
+    display: block;
+    width: 100%;
+}
+.product-details-container{
+    display: flex;
+    width: 100%; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.product-details-container .left{
+    flex: 50%;
+}
+.product-details-container .right{
+    flex: 50%;
+}
+.product-details-container .both{
+    flex: 100%;
+}

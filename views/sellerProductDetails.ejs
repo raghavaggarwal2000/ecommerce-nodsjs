@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title><%= title %></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="../css/sellernavbar.css">
+    <link rel="stylesheet" href="../css/sellerProductDetails.css">
+    <!-- Fontawesome Logo -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="../fontawesome-free-5.14.0-web/css/all.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="top-bar ">
+      <!-- <div class="nav"> -->
+          <div class="navbar-brand">
+                    <a href="/seller">   <img src="../image/logo.png" style="color: white; width:90px; margin: 0 10px;"></a>
+          </div>
+  
+      <div class="top-bar-btn justify-content-end">
+                 
+                  <a style="color: white;">Welcome <%= seller.name %></a>
+                <button><a href="/logout">Logout</a></button>  
+     
+          
+  
+            </div>                          
+        </div>
+        <div class="sidebar-fixed">
+          <ul>
+              <li class="active" id="home">
+                  <a href="/seller">
+                      <i class="fa fa-home"></i>
+                      Home</a>
+          
+              </li>
+              <li id="profile">
+                  <a href="/seller">
+                      <i class="fa fa-user-circle"></i>
+                      User Profile</a>
+              </li>
+              <li id="add">
+                  <a href="/productinput">
+                      <i class="fa fa-plus-square"></i>
+                      Add Product</a>
+              </li>
+              <li id="all_product">
+                  <a href="/allProducts">
+                      <i class="fa fa-database"></i>
+                      All Products</a>
+              </li>
+              <li>
+                  <a href="#">
+                      <i class="fa fa-cart-arrow-down"></i>
+                      New Orders</a>
+              </li>
+          </ul>
+          </div>
+   
+  
+  
+    <div class="content-container">
+        <div class="content">
+                  <div class="container">
+                          <div class="row">
+                                    <div class="col-12 col-md-6">
+                                     <h3>Product Details</h3>                             
+                                            <div class="product-details-container">
+                                                    <div class="left">
+                                                      <span>Product name</span>
+                                                      <p><%= details.name %></p>                                                        
+                                                    </div>
+
+                                                    <div class="right">
+                                                      <span>Product Price</span>
+                                                      <p><%= details.price %></p>
+                                                    </div>
+
+                                                    <div class="left">
+                                                      <span>Product's Sold</span>
+                                                      <p><%= details.sold %></p>
+                                                    </div>
+
+                                                    <div class="right">
+                                                      <span>Product Profit</span>
+                                                      <p><%= details.profit %></p>
+                                                    </div>
+                                                    <div class="both">
+                                                      <span>Product Description</span>
+                                                      <p><%= details.description %></p>
+                                                    </div>
+                                            </div>
+                                     
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                      <img src="../uploads/<%= details.image %>" class="img-fluid">
+                                    </div>
+                          </div>
+                  </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

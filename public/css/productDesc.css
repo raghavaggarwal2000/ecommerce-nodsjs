@@ -1,0 +1,15 @@
+.zoom-out{
+    width: 100%;
+    height: 100vh;
+    cursor: zoom-out;
+    transition: 0.3s;
+    }
+    .large{
+        display: none;
+    }
+    .zoom-in{
+    transition: 0.3s;
+    width: 100%;
+    height: 500px;
+    cursor: zoom-in;
+    }

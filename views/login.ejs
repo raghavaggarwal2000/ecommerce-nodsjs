@@ -1,0 +1,100 @@
+<html lang="en">
+    <head>
+        <%- include('./partials/head.ejs')%>
+        <link rel="stylesheet" href="./css/login.css">
+    </head>
+<body>
+    <div class="header">
+        <a href="/">
+            <img src="./image/logo.png"  class="img-fluid">
+        </a>    
+    </div>
+
+        <div class="signup"> 
+    <form>
+        <h1>Login</h1>
+        <p class="choose">Are you a Buyer or a Seller? Choose below:</p>
+        <div class="radio-container">
+            <div>
+                <input class="radio" type="radio" name="account" value="buyer" checked>
+                <label for="buyer">Buyer</label>
+            </div>
+           <div>
+
+            <input class="radio" type="radio" name="account" value="seller">
+            <label for="seller">Seller</label><br>
+           </div>
+
+        </div>
+
+        <fieldset>
+                <input class="signup-input" type="email" name="email" required>
+                <label for="email" class="signup-label">
+                 <i class="fa fa-envelope"></i>
+                    <span>Email</span>
+                </label><br>
+               
+                </fieldset>
+                <div class="error_email"></div><br>
+            <fieldset>
+            <input class="signup-input" type="password" name="password"required>
+            <label class="signup-label">
+                <i class="fa fa-lock"></i>
+            <span>Password</span>
+            </label><br>
+        </fieldset>
+            <div class="error_password"></div><br>
+            <button class="submit"> Submit</button> 
+           
+    
+                         
+          <div class="sign-in-container">
+              
+            <p><a href="/forgot">Forgot Password?</a></p>
+            <p><a href="/signup">Create Account</a></p>
+          </div>
+           
+    </form>
+
+</div>
+    <script>
+          const form = document.querySelector('form');
+
+form.addEventListener('submit',async (e) => {
+//remove loading!
+     e.preventDefault();
+    const err_email = document.querySelector('.error_email');
+    const err_password = document.querySelector('.error_password');
+    err_email.textContent = '';
+    err_password.textContent ='';
+
+    const email = form.email.value;
+    const password = form.password.value;
+    const account = form.account.value;
+
+    try{
+        const res = await fetch('/login',{
+            method: 'POST',
+            body: JSON.stringify({email, password,account}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.errors){
+            console.log(data.errors);
+            err_email.textContent = data.errors.email;
+            err_password.textContent = data.errors.password;
+        }
+        if (data.user ) {
+location.assign('/');
+}else if(data.seller){
+location.assign('/seller');
+}
+    }
+    catch(err){
+document.querySelector('.notlogin').innerHTML= 'Already registered';
+        console.log('signup.ejs',err);
+    }
+});
+    </script>
+</body>
+</html>

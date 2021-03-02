@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <%- include('./partials/sellerhead.ejs')%>
+        <link rel="stylesheet" href="./css/productinput.css">
+      </head>
+           
+  <body>
+    <div class="top-bar ">
+        <!-- <div class="nav"> -->
+            <div class="navbar-brand">
+                      <a href="/seller">   <img src="./image/logo.png" style="color: white; width:90px; margin: 0 10px;"></a>
+            </div>
+    
+        <div class="top-bar-btn justify-content-end">
+                   
+                    <a style="color: white;">Welcome <%= seller.name %></a>
+                  <button><a href="/logout">Logout</a></button>  
+       
+            
+    
+              </div>                          
+          </div>
+    <div class="sidebar-fixed">
+    <ul>
+        <li id="home" onclick="home()">
+            <a href="/seller">
+                <i class="fa fa-home"></i>
+                Home</a>
+    
+        </li>
+        
+        <li id="profile" onclick="profile()">
+            <a href="/sellerProfile">
+                <i class="fa fa-user-circle"></i>
+                User Profile</a>
+        </li>
+      
+        <li  class="activee" id="add" onclick="add()">
+            <a href="/productinput">
+                <i class="fa fa-plus-square"></i>
+                Add Product</a>
+        </li>
+        <li id="all_product" onclick="all()">
+            <a href="/allProducts">
+                <i class="fa fa-database"></i>
+                All Products</a>
+        </li>
+        <li class="" id="orders" onclick="orders()">
+            <a href="/sellerOrder" >
+                <i class="fa fa-cart-arrow-down"></i>
+                New Orders</a>
+        </li>
+    </ul>
+    </div>
+     
+    
+    
+    
+    
+    
+    <div class="product">
+        <h1> Enter product details</h1>
+            <form action="/productInput" method="POST" enctype = "multipart/form-data">
+                
+                <fieldset>
+                    <input class="text-input" type="text" name="name" required>
+                    <label class="input-label" for="name"><span>Name</span></label>
+                </fieldset>
+                <fieldset>
+                    <input class="text-input" type="number" name="price" required>
+                    <label class="input-label" for="price"><span>Price</span></label>
+                </fieldset>
+                <fieldset class="radio-field">
+                    <span>Type of the product:</span>
+                    <% types.forEach(data =>{ %>
+                        <input type="radio" name="type" value="<%-data.type%>" required>
+                        <label for="type">
+                           <span>
+                               <%-data.type%>
+                           </span>
+                        </label><br>
+                    <% }) %>
+                    <!-- <input type="radio" name="type" value="mouse" checked required>
+                    <label for="mouse">
+                        <span>Mouse</span>
+                    </label><br>
+                    <input type="radio" name="type" value="keyboard">
+                    <label for="mouse">
+                        <span>Keyboard</span>
+                    </label><br>
+                    <input type="radio" name="type" value="monitor">
+                    <label for="mouse">
+                        <span>Monitor</span>
+                    </label><br>
+                    <input type="radio" name="type" value="laptop">
+                    <label for="mouse">
+                        <span>Laptop</span>
+                    </label><br>
+                    <input type="radio" name="type" value="mobile">
+                    <label for="mouse">
+                        <span>Mobile</span>
+                    </label><br>
+                    <input type="radio" name="type" value="cpu">
+                    <label for="mouse">
+                        <span>CPU</span>
+                    </label> -->
+                </fieldset>
+                <fieldset>
+                    <textarea cols="24" rows="7" name="description" required></textarea>
+                    <label class="text-label" for="description"><span>Description of the product</span></label>
+                    </fieldset>
+                    <fieldset class="file-container">
+                        <label for="image"><span>Enter image of the Product:</span></label>
+                        <input type="file" name="image" required>
+                       <!--  class="file-input" -->
+                    </fieldset>
+                    <button class="submit"> Submit</button> 
+            </form>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

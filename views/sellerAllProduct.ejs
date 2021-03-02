@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <%- include('./partials/sellerhead.ejs'); %>
+    <link rel="stylesheet" href="./css/sellerAllProduct.css">
+  </head>
+  <body>
+    <div class="top-bar ">
+      <!-- <div class="nav"> -->
+          <div class="navbar-brand">
+                    <a href="/seller">   <img src="./image/logo.png" style="color: white; width:90px; margin: 0 10px;"></a>
+          </div>
+  
+      <div class="top-bar-btn justify-content-end">
+                 
+                  <a style="color: white;">Welcome <%= seller.name %></a>
+                <button><a href="/logout">Logout</a></button>  
+     
+          
+  
+            </div>                          
+        </div>
+  <div class="sidebar-fixed">
+  <ul>
+      <li  id="home" onclick="home()">
+          <a href="/seller">
+              <i class="fa fa-home"></i>
+              Home</a>
+  
+      </li>
+      
+      <li id="profile" onclick="profile()">
+          <a href="/sellerProfile">
+              <i class="fa fa-user-circle"></i>
+              User Profile</a>
+      </li>
+    
+      <li id="add" onclick="add()">
+          <a href="/productinput">
+              <i class="fa fa-plus-square"></i>
+              Add Product</a>
+      </li>
+      <li class="activee" id="all_product" onclick="all()">
+          <a href="/allProducts">
+              <i class="fa fa-database"></i>
+              All Products</a>
+      </li>
+      <li class="" id="orders" onclick="orders()">
+          <a href="/sellerOrder" >
+              <i class="fa fa-cart-arrow-down"></i>
+              New Orders</a>
+      </li>
+  </ul>
+  </div>
+   
+  
+  
+  
+  
+<div class="content-container">
+   <div class="content">
+    <div class="container">
+      <div class="row">
+    <% products.forEach(item => { %> 
+ 
+      
+                          <div class="col-6">
+                            <div class="img-hover">
+                            <a href="/allProducts/<%= item._id %>">   <img src="./uploads/<%=item.image %>" class="img-fluid"  >      </a>
+                          <!-- <div class="img-hover-content">
+                            <h1></h1>
+                          </div> -->
+                                
+                              </div>
+                          </div>
+                          <div class="col-6 item-data-container">
+                            <ul>
+                              <li>
+                                <a class="item-data">Name of the Product: <%= item.name %></a>
+                              </li>
+                              <li>
+                                <a class="item-data">Price: <%= item.price %></a>
+                              </li>
+                              <li>
+                                <a class="item-data">Total Items Sold: <%= item.sold %></a>
+                              </li>
+                              <li>
+                                <a class="item-data">Total Profit Earned: <%= item.profit %></a>
+                              </li>
+                            </ul>
+                           
+                           
+                          </div>
+                
+               
+        
+   
+      <% }) %>
+    </div>
+  </div>
+   </div>
+</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

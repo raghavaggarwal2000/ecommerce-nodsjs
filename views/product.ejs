@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title><%= title %></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="../css/navbar.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <!-- Fontawesome Logo -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="../fontawesome-free-5.14.0-web/css/all.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="../css/mouse.css">
+  </head>
+  <body>
+    <%- include('./partials/navbar.ejs')%>
+    <div class="left-fixed-bar">
+  <form class="product-form">
+         
+            <fieldset>
+                <input type="radio" name="sort" value="0" id="check" onclick="sortt('0')" checked>
+                <label for="0">Featured</label> 
+            </fieldset>
+
+          <fieldset>
+              <input type="radio" name="sort" value="1" class="uncheck" onclick="sortt('1')">
+              <label for="1">Price Low to High</label> 
+          </fieldset>
+
+          <fieldset>
+            <input type="radio" name="sort" value="2" class="uncheck" onclick="sortt('2')">
+            <label for="2">Price High to Low</label>
+          </fieldset>
+
+          <fieldset>
+            <input type="radio" name="sort" value="3" class="uncheck" onclick="sortt('3')">
+            <label for="3">Best Seller</label>
+          </fieldset>
+
+          <fieldset>
+            <input type="radio" name="sort" value="4" class="uncheck" onclick="sortt('4')">
+            <label for="4">Latest Arrival</label> 
+        </fieldset>
+  </form>
+  </div>
+  <div class="content-container">
+    <div class="content">
+        <div class="container">
+            <div class="row">
+            
+               <% for(i = 0; i< count; i++){ %> 
+                <div class="col-12 col-md-6">
+                  <div class="data-img">
+               
+                    <img src="../uploads/<%=product[i].image%>" class="img-fluid" id="img<%=i%>">   
+                
+                 
+                    <div class="img-overlay">
+                      <a class="img-overlay-a" id="link<%=i%>" href="/product/<%= product[i]._id %>" >
+                        <a id="name<%=i%>"> <%= product[i].name %></a>
+                        <a id="price<%=i%>">Rs.<%= product[i].price %></a>
+                      </a>
+                    </div>
+             
+                    <!-- </img>       -->
+                </div>     
+             
+          
+            </div>
+         
+                <% } %>
+                  
+        </div>
+        </div> 
+    </div>
+  </div>
+  
+      
+    <!-- </div>
+    <div class="content-container">
+      <div class="content">
+       <img src="./image/laptop.jpg" id="img" class="zoom-out" onclick="zoom()">
+      </div> 
+      
+ 
+  </div>
+ <script>
+   function zoom(){
+   const img = document.getElementById("img");
+   console.log(img);
+   img.classList.toggle("zoom-in");
+   img.classList.toggle("zoom-out");
+  
+   };
+ </script> -->
+
+ <script>
+   window.onload=function(){
+     document.getElementById('check').checked = true;
+ let radio= document.querySelectorAll('.uncheck').checked= false;
+//  radio[0].checked = false;
+  //  console.log(radio);
+   }
+   const sortt = async function(value){
+      try{
+        const typeID = '<%= typeID%>';
+        const res = await fetch('/sort',{
+            method: 'POST',
+            body: JSON.stringify({value,typeID}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.refresh){
+          window.location.reload(false);
+        }else if (data.product){
+          let i = 0;
+            data.product.forEach(item =>{
+                          document.querySelector('#link'+i).href="/product/"+item._id;
+                         document.querySelector('#img'+i).src = "../uploads/"+ item.image;
+                         document.querySelector('#name'+i).innerHTML = item.name;
+                         document.querySelector('#price'+i).innerHTML = "Rs."+item.price;
+                        i++;
+                        });
+        }else if(data.arrival){
+          for(let i = data.count - 1, j =0; i>=0 ; i--,j++){
+                         document.querySelector('#link'+j).href="/product/"+data.arrival[i]._id;
+                         document.querySelector('#img'+j).src = "../uploads/"+ data.arrival[i].image;
+                         document.querySelector('#name'+j).innerHTML = data.arrival[i].name;
+                         document.querySelector('#price'+j).innerHTML = "Rs."+data.arrival[i].price;
+          }
+        }
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
+ </script>
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+  </body>
+</html>

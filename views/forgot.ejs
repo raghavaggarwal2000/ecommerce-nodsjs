@@ -1,0 +1,149 @@
+<html lang="en">
+    <head>
+        <%- include('./partials/head.ejs')%>
+        <link rel="stylesheet" href="./css/login.css">
+    </head>
+<body>
+    <div class="header">
+        <a href="/">
+            <img src="./image/logo.png"  class="img-fluid">
+        </a>    
+    </div>
+
+    <div class="signup" style="flex-direction: column;"> 
+        
+        <h3>Forgot Password</h3>
+            <form id="email">
+                <p class="choose">Are you a Buyer or a Seller? Choose below:</p>
+                <div class="radio-container">
+                    <div>
+                        <input class="radio" type="radio" name="account" value="buyer" checked>
+                        <label for="buyer">Buyer</label>
+                    </div>
+                   <div>
+        
+                    <input class="radio" type="radio" name="account" value="seller">
+                    <label for="seller">Seller</label><br>
+                   </div>
+        
+                </div>
+        
+                    <fieldset>
+       
+                        <input class="signup-input" id="em" type="email" name="email" required>
+                        <label for="email" class="signup-label">
+                         <i class="fa fa-envelope"></i>
+                            <span>Email</span>
+                        </label>
+                    </fieldset>
+                    <div class="error_email"></div>
+
+                    <fieldset id="otp" class="hide">
+                        <input class="signup-input " id="abc" type="number" name="otp">
+                        <label for="otp" class="signup-label">
+                         <i class="fa fa-key"></i>
+                            <span>OTP</span>
+                        </label>
+                    </fieldset>
+                    <div class="error_otp"></div>
+
+                    <fieldset id="pass" class="hide">
+                        <input class="signup-input " id="p2" type="password" name="pass">
+                        <label for="pass" class="signup-label">
+                         <i class="fa fa-lock"></i>
+                            <span>New Password</span>
+                        </label>
+                    </fieldset>             
+            <div class="error_password"></div>
+                    <button class="submit mt-2">Next</button> 
+            </form>
+            <!-- <form id="otp">
+                     
+                    <button class="submit mt-2">Next</button> 
+            </form>         
+               <form id="password">
+               
+                    <button class="submit mt-2">Next</button> 
+            </form> -->
+    </div>
+
+    <script>
+        let back_otp,email,otp,password,no = 0;
+            const form = document.querySelector('form');
+            form.addEventListener('submit', async (e) =>{
+                e.preventDefault();
+
+            const err_email = document.querySelector('.error_email'),
+            err_password = document.querySelector('.error_password'),
+            err_otp = document.querySelector('.error_otp'),
+            account = form.account.value;
+
+            err_email.textContent = '';
+            err_password.textContent ='';
+            err_otp.textContent ='';
+            
+             const otp_cont = document.getElementById('otp');
+             const pass_container = document.getElementById('pass');  
+          
+           if(otp_cont.classList.contains("hide")){
+            email = form.email.value;
+                try{
+        const res = await fetch('/forgot',{
+            method: 'POST',
+            body: JSON.stringify({email,no: 1,account}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.otp){
+            back_otp = data.otp;
+       
+            otp_cont.classList.remove("hide");
+               document.getElementById('abc').required = true;
+               document.getElementById('em').disabled = true;
+        }else{
+            err_email.textContent = data.errors;
+        }
+            }
+            catch(err){
+                console.log(err);
+            }
+           }else{
+           
+                        if(pass_container.classList.contains("hide")){
+                                otp =  document.getElementById('abc').value;
+                                if(back_otp == otp){
+                                    pass_container.classList.remove("hide");
+                                        document.getElementById('p2').required = true;
+                                        document.getElementById('abc').disabled = true;
+                                }else{
+                                    err_otp.textContent = "OTP doesn't match";
+                                }
+                        }else{
+                            password = form.pass.value;
+                            if(password.length >= 4){
+                                try{
+                                    const res = await fetch('/forgot',{
+                                        method: 'POST',
+                                        body: JSON.stringify({email,no: 2,account,password}),
+                                        headers: {'Content-Type': 'application/json'}
+                                    });
+                                    const data = await res.json();
+                                    if(data.id){
+                                        location.assign('/login');
+                                    }
+                                }
+                                catch(err){
+                                    console.log(err);
+                                }
+                            }else{
+                                err_password.textContent = "Length should be more than 3";
+                            }
+                     
+                            //post req for pass
+                        }
+           }
+            });
+    </script>
+
+</body>
+</html>

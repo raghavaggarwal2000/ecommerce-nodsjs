@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title><%= details.type %></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/productDesc.css">
+    <link rel="stylesheet" href="../fontawesome-free-5.14.0-web/css/all.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+  <body>
+      <%- include('./partials/navbar.ejs')%>
+<div class="content-container">
+        <div class="content">
+                <div class="container-fluid">
+                   
+                        <div class="large">
+                            <div class="row">
+
+                            
+                                <div class="col-12">
+                                    <img src="../uploads/<%=details.image%>" id="img" class="zoom-out" onclick="large()">
+                                </div>
+                                <div class="col-12">
+                                    <h5 style="font-family: avenirnext; font-weight: 700;line-height: 1;"><%=details.name%></h3>
+                                    <p style="font-family: avenirnext;font-size: 16px;font-weight: 400;">Rs.<%=details.price%></p>
+                                    <p style="font-family: avenirnext;color: #151718;font-weight: 300;font-size: 1rem;"><%= details.description %></p>
+                                    <a type="button" class="btn btn-primary btn-outline-dark btn-lg" onclick="cart('<%=details._id%>')">Add to cart</a>
+                                    <% if(same){ %>
+                                        <a type="button" id="removewish" class="removewish btn btn-secondary btn-outline-dark btn-lg" onclick="removeWish()">Remove From Wishlist</a>
+                                    <% }else { %> 
+                                        <a type="button" id="addwish" class="addwish btn btn-secondary btn-outline-dark btn-lg " onclick="addWish()">Add to Wishlist</a>
+                                    <% }%>
+                                     <br><br>
+                                    <a type="button" class="btn btn-primary btn-outline-dark btn-lg" onclick="purchase()">Purchase</a>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="small">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <img src="../uploads/<%=details.image%>" id="img" class="zoom-in" onclick="small()">
+                                    </div>
+                                    <div class="col-4">
+                                        <h5 style="font-family: avenirnext; font-weight: 700;line-height: 1;"><%=details.name%></h3>
+                                            <p style="font-family: avenirnext;font-size: 16px;font-weight: 400;">Rs.<%=details.price%></p>
+                                        <p style="font-family: avenirnext;color: #151718;font-weight: 300;font-size: 1rem;"><%= details.description %></p>
+                                        <a type="button" class="btn btn-primary btn-outline-dark btn-lg" onclick="cart('<%=details._id%>')">Add to cart</a>
+                                        <% if(same == true){ %>
+                                            <a type="button" id="removewish" class="removewish btn btn-secondary btn-outline-dark btn-lg" onclick="removeWish()">Remove From Wishlist</a>
+                                        <% }else { %> 
+                                            <a type="button" id="addwish" class="addwish btn btn-secondary btn-outline-dark btn-lg " onclick="addWish()">Add to Wishlist</a>
+                                        <% }%>
+                                           
+                                        <br><br>
+                                        <a type="button" class="btn btn-primary btn-outline-dark btn-lg" onclick="purchase()">Purchase</a>
+                                    </div>
+                                </div>
+                                   
+                            </div>
+                       
+         
+                       
+                </div>
+        </div>
+</div>
+
+
+<script>
+function small(){
+document.querySelector('.small').style.display = "none";
+document.querySelector('.large').style.display = "block";
+}
+function large(){
+document.querySelector('.small').style.display = "block";
+document.querySelector('.large').style.display = "none";
+
+// document.getElementsByClassName('removewish').style.display = "inline !important";
+//             document.querySelectorAll('.addwish').style.display ="none !important";
+}
+
+const cart = async function(id){
+    try{
+            const res = await fetch('/addToCart',{
+            method: 'POST',
+             body: JSON.stringify({id}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+
+        if(data.id){
+            
+            window.location.reload(false);
+        }
+    
+            }
+            catch(err){
+                console.log(err,"cart error");
+            }
+}
+
+const removeWish = async function(){
+const id = '<%= details._id%>';
+
+try{
+    const res = await fetch('/removeFromWish',{
+            method: 'POST',
+             body: JSON.stringify({id}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        console.log(data);
+if(data.error){
+    window.alert(data.error);
+            location.assign('/signup');
+}else{
+    
+    window.location.reload(false);
+}
+    
+
+    }
+catch(err){
+    conosle.log(err,"Remove");
+}
+    '<%= same = false %>'
+    console.log('<%= same %>')
+}
+
+const addWish = async function ()  {
+const id = '<%= details._id%>';
+try{
+    const res = await fetch('/addtowish',{
+            method: 'POST',
+             body: JSON.stringify({id}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        console.log(data);
+        if(data.done){
+            
+        window.location.reload(false);
+            // document.getElementsByClassName('removewish')[0].style.display = "inline";
+            // document.querySelectorAll('.addwish')[0].style.display ="none";
+            // document.getElementsByClassName('removewish')[1].style.display = "inline";
+            // document.querySelectorAll('.addwish')[1].style.display ="none";
+            // document.querySelectorAll('.removewish').style.display = "inline";
+
+        }else if(data.error){
+            window.alert(data.error);
+            location.assign('/signup');
+        }
+}
+catch(err){
+    console.log(err,"productDescs");
+}
+}
+
+const purchase = async function(){
+    const id = '<%= details._id %>', sellerID = '<%= details.sellerID %>',price = '<%= details.price%>';
+    try{
+    const res = await fetch('/placeOrderDesc',{
+            method: 'POST',
+             body: JSON.stringify({id,sellerID,price}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+ 
+if(data.error){
+    window.alert(data.error);
+            location.assign('/signup');
+}else if(data.redirect){
+            window.alert('Please enter your address');
+            location.assign('/buyerProfile');
+        }else{
+    location.assign('/buyerOrders');
+}
+}
+
+catch(err){
+    conosle.log(err,"Remove");
+}
+}
+// function zoom(){
+    // const img = document.getElementById("img");
+    // console.log(img);
+    // img.classList.toggle("zoom-in");
+    // img.classList.toggle("zoom-out");
+   
+    // };
+</script> 
+
+<!-- const addWish = document.getElementById('addwish');
+addWish.addEventListener('click',async (e) =>{
+console.log('teset');
+}); -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+   </body>
+</html>

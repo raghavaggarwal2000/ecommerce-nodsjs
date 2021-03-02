@@ -1,0 +1,52 @@
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs')%>
+    
+    <link rel="stylesheet" href="./css/feedback.css">
+</head>
+<body>
+    <%- include('./partials/navbar.ejs')%>
+    <div class="feedback"> 
+            <form>
+                <h1>Feedback</h1>
+
+                <fieldset>
+                    <input class="signup-input" type="text" name="name" required>
+                    <label for="name" class="signup-label"> 
+                     <i class="fa fa-envelope"></i>
+                        <span>Name</span>
+                    </label><br>
+                   
+              </fieldset>
+
+                <fieldset>
+                    <input class="signup-input" type="email" name="email" required>
+                    <label for="email" class="signup-label">
+                     <i class="fa fa-envelope"></i>
+                        <span>Email</span>
+                    </label><br>
+                   
+              </fieldset>
+
+              <fieldset>
+                <input class="signup-input" type="number" name="phone" required>
+                <label for="phone" class="signup-label">
+                    <i class="fa fa-phone-alt"></i>
+                    <span>Phone Number</span>
+                </label><br>
+               
+          </fieldset>
+          <fieldset>
+          <textarea class="signup-input" name = "remark" cols="40" rows="4" placeholder="Suggestions or Remarks you want to give">
+
+          </textarea>
+            <label for="remark" class="signup-label text-label">
+                <!-- <i class="fa fa-phone-alt"></i> -->
+                <span>Suggestions or Remarks you want to give</span>
+            </label><br>
+           
+      </fieldset>
+            </form>
+    </div>
+</body>
+</html>

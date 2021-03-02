@@ -1,0 +1,215 @@
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs')%>
+</head>
+<body style="background-color: #ddd;">  
+      <%- include('./partials/navbar.ejs')%>
+      <div class="content-container">
+
+          <div class="content" style="height: max-content;">
+            
+
+            <% if(count == 0 ) { %> 
+                <div class="container">
+                    <div class="row bg-light">
+                        <div class="col-12" style="height: 300px; ">
+                            <!-- <a style="font-size: 18px;font-weight: bold;" class="p-2">My Cart</a> -->
+                           <h1>My Cart</h1>
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <img src="./image/wish.jpg" style="width: 300px;">
+                               
+                                    <a style="font-size: 18px;" class="m-4">Your cart is empty!</a>
+                           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             
+                <% } else {%>
+                    <div class="container">
+                        <div class="row">
+                          
+                            <div class="col-12 col-md-8">
+                                <div class="col-12 bg-light">
+
+                                    <a style="font-size: 18px;font-weight: bold;" class="p-2">My Cart</a>
+                                    <hr class="m-0">
+                                </div>
+             <% for(i = 0; i < count; i++){ %>
+                <div class="container ">
+                    <div class="row mb-2 bg-light">
+                        <!-- <div class="col-12 bg-light"> -->
+                            <div class="col-4 p-2">
+                       
+                               <img src="../uploads/<%=cart[i].image%>" class="img-fluid" >
+                            </div>
+                            <div class="col-8"> 
+                                   <h3><%= cart[i].name %></h3>
+                                   <a style="color: #878787;font-size: 14px;">Seller: <%= seller[i].name %></a>
+                                   <h4>Rs. <%= cart[i].price %></h4>
+                                   <a class="btn btn-primary" onclick="save('<%= cart[i]._id %>')" style=" cursor: pointer; color: white;">
+                                       Save For Later
+                                   </a>
+                                   <a class="btn btn-primary" onclick="remove('<%= cart[i]._id %>', 'cart')" style="cursor: pointer;color: white;">
+                                       Remove
+                                   </a>
+                            </div>
+                                 
+                                  <!-- </div> -->
+                    </div>
+                </div>
+     
+           <%} %>
+          
+        </div>
+   
+        <div class="col-4 p-2 bg-light sticky-top " id="stick" style="height: 200px;">   
+        <a>PRICE DETAILS</a>
+        <hr>
+        <div class="d-flex justify-content-between">
+            <a>Total Price</a> 
+            <a><%= price %></a>
+        </div>
+        <div class="d-flex justify-content-center m-2 p-2">
+
+            <a class="btn btn-primary" onclick="place('<%= price %>')" style=" color: white;cursor: pointer;">Place Order</a>
+        </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+          </div>
+      </div>
+
+      
+
+    
+      <div class="container">
+        <div class="row mt-2">
+            <% if(count == 0) { %>
+                <div class="col-12">
+                <% }else{ %>
+                    <div class="col-12 col-md-8">
+                    <%} %>
+         <%if(saveCount > 0){ %> 
+                <div class="col-12 bg-light p-0">
+                    <a style="font-size: 18px;font-weight: bold;" class="m-2 p-2">Save For Later</a>
+                    <hr class="m-0" >
+                </div>
+                <%} %>
+            
+                <% for(i = 0; i < saveCount; i++){ %>
+                   <div class="container ">
+                       <div class="row mb-2 bg-light">
+                           <!-- <div class="col-12 bg-light"> -->
+                               <div class="col-4 p-2">
+                          
+                                  <img src="../uploads/<%=save[i].image%>" class="img-fluid" >
+                               </div>
+                               <div class="col-8"> 
+                                      <h3><%= save[i].name %></h3>
+                                      <a style="color: #878787;font-size: 14px;">Seller: <%= save[i].name %></a>
+                                      <h4>Rs. <%= save[i].price %></h4>
+                                      <a class="btn btn-primary" onclick="move('<%= save[i]._id %>')" style=" color: white;cursor: pointer;">
+                                         Move to Cart
+                                      </a>
+                                      <a class="btn btn-primary" onclick="remove('<%= save[i]._id %>', 'save')" style="color: white;cursor: pointer;">
+                                          Remove
+                                      </a>
+                               </div>
+                                    
+                                     <!-- </div> -->
+                       </div>
+                   </div>
+        
+              <%} %>
+              
+   
+           </div>
+        </div>
+</div>
+<script>
+async function save(id){
+    
+    try{
+     
+            const res = await fetch('/moveToLater',{
+            method: 'POST',
+             body: JSON.stringify({id}),
+            headers: {'Content-Type': 'application/json'}
+        });
+
+        const data = await res.json();
+        if(data.id){
+            window.location.reload(false);
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+async function move(id){
+    try{
+            const res = await fetch('/moveToCart',{
+            method: 'POST',
+             body: JSON.stringify({id}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.id){
+            window.location.reload(false);
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+async function remove(id,name){
+    try{
+            const res = await fetch('/removeCart',{
+            method: 'POST',
+             body: JSON.stringify({id,name}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.id){
+            window.location.reload(false);
+        }else{
+            window.alert(data.error);
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+
+async function place(price){
+    const count = '<%=count%>';
+    try{
+        const res = await fetch('/placeOrderCart',{
+            method: 'POST',
+             body: JSON.stringify({price,count}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.id){
+            location.assign('/buyerOrders');
+        }else if(data.redirect){
+            window.alert('Please enter your address');
+            location.assign('/buyerProfile');
+        }else{
+            window.alert('error occured',data.errors);
+        }
+    }
+    catch(err){
+            console.log(err);
+    }
+}
+</script>
+
+</body>
+</html>

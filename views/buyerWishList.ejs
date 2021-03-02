@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs')%>
+</head>
+<body>  
+      <%- include('./partials/navbar.ejs')%>
+<style>
+    .center{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+</style>
+      <div class="content-container">
+        <div class="content">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <% if(count >0) { %> 
+                                <% for(i = 0; i < count ; i++){ %>
+                                
+                                <div class="col-12">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-3">
+                                                        <img src="../uploads/<%=productsInfo[i].image%>" class="img-fluid">
+                                                    </div>
+                                                    <div class="col-4">
+                                                          
+<a href="/product/<%=wishlistID[i].productID%>"><%= productsInfo[i].name %></a><br>
+                                                            <a>Rs.<%= productsInfo[i].price %></a>
+                                                     </div>
+                                                     <div class="col-2"></div>
+                                                    <div class="col-3 justify-content-end">
+                                                 <div class="float-right">
+                                                    <a style="font-size: 11px;"> Item added on <%= wishlistID[i].date %></a><br>
+                                                    <a class="btn btn-primary btn-sm " onclick="addCart('<%=wishlistID[i].productID %>')" style="width: 100%;">Add to Cart</a><br><br>
+                                                    <!-- <a class="btn btn-primary btn-sm " onclick="remove('<%=wishlistID[i].productID %>')" style="width: 100%;">Remove From Cart</a><br><br> -->
+                                                    <a class="btn btn-warning btn-sm " onclick="remove('<%=wishlistID[i].productID%>')" style="width: 100%;"> Delete</a><br>
+                                                 </div>
+                                                     
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                </div>
+                                <hr style="width: 100%;">
+                                <%} %>
+                                <%}else{ %>
+                                <div class="col-12">
+                                    <div class="center">
+                                        <img src="./image/wish.jpg" style="width: 200px; align-items: center;" class="img-fluid">
+                                        <h3>Empty Wishlist</h3>
+                                        <h6>You have no items in your wishlist. Start adding!</h6>
+                                    </div>
+                     
+                                </div>    
+                                <% } %>
+                            </div>
+                        </div>
+
+        </div>
+    </div>
+    <script>
+        async function addCart(id){
+           
+           try{
+            const res = await fetch('/addToCart',{
+            method: 'POST',
+             body: JSON.stringify({id}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+
+        if(data.id){
+            
+            window.location.reload(false);
+        }
+    
+            }
+            catch(err){
+                console.log(err,"cart error");
+            }
+        }
+
+
+
+      async function remove(id){
+           try{
+            const res = await fetch('/removeFromWish',{
+            method: 'POST',
+             body: JSON.stringify({id}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.error){
+            // console.log(data);
+        }else{
+
+            window.location.reload(false);
+        }
+           }
+           catch(err){
+               console.log(err);
+           }
+        }
+    </script>
+</body>
+</html>

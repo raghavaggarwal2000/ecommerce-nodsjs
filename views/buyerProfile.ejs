@@ -1,0 +1,299 @@
+<html lang="en">
+<head>
+    <%- include('./partials/head.ejs')%>
+    
+    <link rel= "stylesheet" href="./css/sellerProfile.css">
+</head>
+<body>  
+      <%- include('./partials/navbar.ejs')%>
+      <div class="popup-container">
+        <div class="popup-content">
+            <div class="close">
+                <i class="fa fa-times-circle" onclick="closed()"></i>
+            </div>
+           
+                        <div class="form-name">
+                                        <form id="name-submit" method="POST" action="/changeBuyerName">
+                                            <h1> Change Name</h1>
+                                            <label for="name">First name</label>
+                                            <input type="text" name="namee" placeholder="<%= buyer.name %>" required><br>
+    
+                                            <label for="lastName">Last Name</label>
+                                            <input type="text" name="lastName"placeholder="<%= buyer.lastName %>" required>
+                                            <fieldset>
+                                                <button>
+                                                    Change Name
+                                                </button>
+                                                </fieldset>
+                                        </form>
+                        </div>
+                        <div class="form-phone">
+                            <form id="changePhone">
+                                <h1>Change Phone Number</h1>
+                                <label for="phone">Phone Number</label>
+                                <input maxlength="10" type="text " name="phone" placeholder="<%= buyer.phone %>" required>
+                                <div class="err_phone"></div>
+                                   <fieldset>
+                                       <button>Change Phone Number</button>
+                                   </fieldset>             
+                            </form>
+                        </div>
+                        <div class="form-email">
+                            <form id="changeEmail">
+                                <h1>Change Email</h1>
+                                <label for="email">Email</label>
+                                <input type="email " name="email" placeholder="<%= buyer.email %>" required>
+                                  <div class="err_email"></div>
+                                       <button>Send Email</button>
+                                    </form>
+    
+                                 <form class="otp-container">
+                                     <label for="otp">OTP</label>
+                                     <input type="number" name="otp" placeholder="Enter OTP" required>
+                                     <div class="err-otp"></div>
+                                     <button>Change Email</button>
+                                 </form>           
+                        </div>
+                        <div class="form-address">
+                                <form method="POST" action="/changeBuyerAddress">
+                                    <h1>Change Address</h1>
+                                    <textarea name = "address" cols="40" rows="4" placeholder="<%= buyer.address %>"></textarea>
+                                   <fieldset>
+                                    <button>
+                                        Submit
+                                    </button>
+                                    </fieldset>
+                                </form>
+                         
+                        </div>
+                        <div class="form-password">
+                            <form class="form-pass">
+                                <h1>Change Password</h1>
+                                <label for="lastpass">Enter Last Password</label>
+                                <input type="password" name="lastpass" required>
+                                <div class="err-last"></div>
+                                <label for="newpass">Enter New Password</label>
+                                <input type="password" name="newpass" required>
+                                <div class="err-new"></div>
+                                <label for="samepass">Confirm Password</label>
+                                <input type="password" name="samepass" required>
+                                <div class="err-same"></div>
+                              <fieldset>
+                                <button>
+                                    Submit
+                                </button>
+                              </fieldset>
+                              
+                            </form>
+                        </div>
+        </div>  
+    </div>
+        <div class="content-container">
+            <div class="content">
+                <div class="container">
+                    <div class="row">
+                            <div class="col-12">    
+                                <div class="form-container">
+                               
+                                <h1 style="text-align: center;">User Profile</h1>
+                                    <form id="form-name">
+                                            <fieldset class="name-container">
+                                                <a class="activee" onclick="nameEdit()"><span>Edit Name</span></a>
+                                                                                     
+                                                    <label for="name-fix">First name</label>
+                                                    <input type="text" name="name-fix" value="<%= buyer.name %>" disabled>
+                                                 
+                                                        <label for="lastName-fix">Last Name</label>
+                                                        <input type="text" name="lastName-fix" value="<%= buyer.lastName %>" disabled>     
+                                            </fieldset>
+                                           
+                                            
+                                        <fieldset > 
+                                            <a class="activee" onclick="phoneEdit()"><span>Edit Phone Number</span></a>
+                                          <input type="text " name="phone-fix" value="<%= buyer.phone %>" disabled>
+                                            
+                                        </fieldset>
+                                    
+                                        <fieldset class="email-container">
+                                            <a class="activee" onclick="emailEdit()"><span>Edit Email</span></a>
+                                            
+                                            <input type="email" name="email-fix" value="<%=buyer.email %>" disabled>
+                                  
+                                        </fieldset>               
+                              
+
+
+                                 
+                                                <fieldset class="address-container">
+                                                    <a class="activee" onclick="addressEdit()"><span>Edit Address</span></a>
+                                                    <textarea name="address-fix" cols="40" rows="3" disabled><%= buyer.address%></textarea>
+                                                </fieldset>
+                                                <div class="pass-btn" onclick="passEdit()">
+                                           <a> Change Password   </a>  
+                                                </div>
+                                                
+                                    
+                                            </form>
+                                    
+                                </div><!--form container-->
+                            </div><!--col-12-->
+                    </div>
+                </div>
+              
+      
+            </div>
+        </div>
+
+
+
+        <script>
+   const changePhone = document.getElementById("changePhone");
+    changePhone.addEventListener('submit', async (e) =>{
+        e.preventDefault(); 
+    const phone = changePhone.phone.value;
+    try{
+        const res = await fetch('/changeBuyerPhone',{
+            method: 'POST',
+            body: JSON.stringify({phone}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.errors){
+            const err_phone = document.querySelector('.err_phone').textContent = data.errors;
+        }else{
+            location.assign('/buyerProfile')
+        }
+        console.log(data);
+    }
+    catch(err){
+        console.log(err);
+    }
+    });
+
+    let otp,global_email;
+    const changeEmail = document.getElementById("changeEmail");
+    changeEmail.addEventListener('submit', async (e) =>{
+        e.preventDefault(); 
+    const email = changeEmail.email.value;
+    global_email = email;
+    try{
+        const res = await fetch('/sendBuyerOTP',{
+            method: 'POST',
+            body: JSON.stringify({email}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+      
+        if(data.errors){
+            const err_email = document.querySelector('.err_email').textContent = data.errors;
+        }else{
+            document.querySelector(".otp-container").style.display = "block";
+         otp = data.otp;
+        }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+    });
+    
+    const otp_container = document.querySelector(".otp-container");
+otp_container.addEventListener('submit' ,async (e) =>{
+e.preventDefault();
+const otpInput = otp_container.otp.value;
+const err_otp = document.querySelector('.err-otp');
+try{
+if(otp == otpInput){
+ const res = await fetch('/changeBuyerEmail',{
+            method: 'POST',
+            body: JSON.stringify({otp,email:global_email}),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data = await res.json();
+        if(data.id){
+            location.assign("/buyerProfile");
+        }
+}else{
+err_otp.textContent = "Wrong OTP";
+}
+}
+catch(err){
+    console.log(err);
+}
+});
+
+const form_pass = document.querySelector(".form-pass");
+form_pass.addEventListener('submit',async (e) =>{
+    e.preventDefault();
+    const password = form_pass.lastpass.value;
+    const new_pass = form_pass.newpass.value;
+    const confirm = form_pass.samepass.value;
+   document.querySelector(".err-new").textContent =" ";
+   const err_confirm = document.querySelector(".err-same").textContent = "";
+    try{
+        document.querySelector(".err-last").textContent ="";
+        console.log(new_pass.length >= 4)
+        if(new_pass.length >= 4){
+            if(new_pass == confirm){
+                    const res = await fetch('/changeBuyerPassword',{
+                    method: 'POST',
+                    body: JSON.stringify({password,new_pass}),
+                    headers: {'Content-Type': 'application/json'}
+                });
+                const data = await res.json();
+                if(data.errors){
+                    document.querySelector(".err-last").textContent = data.errors;
+                }else{
+                    window.alert("Password changed");
+                    location.assign('/buyerProfile');
+                }
+        }else{
+            err_confirm.textContent = "New Password do not match";
+        }
+        }else{
+            document.querySelector(".err-new").textContent = "Length should be more than 3";
+        }
+      
+       
+    }
+    catch(err){
+        console.log(err);
+    }
+});
+
+
+                function closed(){
+        document.querySelector(".popup-container").style.display = "none";
+        document.querySelector(".form-name").style.display = "none";
+        document.querySelector(".form-phone").style.display = "none";
+        document.querySelector(".form-email").style.display = "none";
+        document.querySelector(".otp-container").style.display = "none";
+        document.querySelector(".form-address").style.display = "none";
+        document.querySelector(".form-password").style.display = "none";
+        
+    }
+        
+    function nameEdit(){
+        document.querySelector(".popup-container").style.display = "flex";
+        document.querySelector(".form-name").style.display = "block";
+    }
+    function phoneEdit(){
+        document.querySelector(".popup-container").style.display = "flex";
+        document.querySelector(".form-phone").style.display = "block";
+
+    }
+    function emailEdit(){
+        document.querySelector(".popup-container").style.display = "flex";
+        document.querySelector(".form-email").style.display = "block";
+    }
+    function addressEdit(){
+        document.querySelector(".popup-container").style.display = "flex";
+        document.querySelector(".form-address").style.display = "block";
+    }
+    function passEdit(){
+        document.querySelector(".popup-container").style.display = "flex";
+        document.querySelector(".form-password").style.display = "block";
+    }
+        </script>
+</body>
+</html>
