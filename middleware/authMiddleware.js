@@ -7,7 +7,6 @@ const Admin = require('../model/admin');
 //checks if its admin or not
 
 const checkAdmin = (req,res,next)=>{
-   
     if(req.cookies.admin){
         let token = req.cookies.admin;
       jwt.verify(token,'Ecommerce secret' , async (err,decodedToken) =>{
@@ -23,7 +22,7 @@ const checkAdmin = (req,res,next)=>{
         res.redirect('/adminLogin');
         next();
     }
-    }
+}
 
 //seller cant access index page so making sure he goes to /seller
 const goseller = (req,res,next)=>{

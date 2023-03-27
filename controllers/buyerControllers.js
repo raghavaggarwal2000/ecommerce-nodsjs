@@ -442,7 +442,7 @@ module.exports.otp_post = async(req,res)=>{
                 service: 'gmail',
                 auth: {
                   user: 'mailsender1504@gmail.com',
-                  pass: 'googletalk1'
+                  pass: 'zglaktzzeankpauj'
                 }
               });
               

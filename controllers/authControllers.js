@@ -97,7 +97,7 @@ var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'mailsender1504@gmail.com',
-      pass: 'googletalk1'
+      pass: 'zglaktzzeankpauj'
     }
   });
   
@@ -188,7 +188,7 @@ module.exports.signup_post = async (req,res) =>{
                 service: 'gmail',
                 auth: {
                   user: 'mailsender1504@gmail.com',
-                  pass: 'googletalk1'
+                  pass: 'zglaktzzeankpauj'
                 }
               });
               
