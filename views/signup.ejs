@@ -131,7 +131,7 @@
                 });
                 //used to get user id from this
                 const data = await res.json();
-         
+                console.log(data);
             if(data.errors){
                 err_email.textContent = data.errors.email;
                 err_password.textContent = data.errors.password;
@@ -142,7 +142,7 @@
                 //     body: JSON.stringify({email, password,account}),
                 //     headers: {'Content-Type': 'application/json'}
                 // });     
-                location.assign('/otp');
+                location.assign(`/otp/${data._id}`);
             }
                 // if(data.errors){
                 //     err_email.textContent = data.errors.email;

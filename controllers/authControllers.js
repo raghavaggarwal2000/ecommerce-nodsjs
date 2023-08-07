@@ -142,26 +142,20 @@ var transporter = nodemailer.createTransport({
 }
 };
 
-let global_email, global_pass, global_acc, global_otp,global_name,global_lastName, global_phone;
 module.exports.signup_post = async (req,res) =>{
     
     const {email,password,account,name,lastName,phone} = req.body;
    
-    global_email = email;
-    global_pass = password;
-    global_acc = account;
-    global_name = name;
-    global_lastName = lastName;
-    global_phone = phone;
+
 
  let user,check;
-    if(global_acc === "buyer"){
+    if(account === "buyer"){
         user = await  User.findOne({email});
         check = await User.findOne({phone});
     }else{
          user = await  Seller.findOne({email});
-         check = await User.findOne({phone});
-        }
+         check = await Seller.findOne({phone});
+    }
         
           
           let errors = {email:'', password:''};
@@ -180,7 +174,29 @@ module.exports.signup_post = async (req,res) =>{
             res.status(404).send({errors});
            }else{
             const otp = Math.round(random(1000,9999));
-            global_otp = otp;
+            if(account === "buyer"){
+                user = await User.create({ 
+                    email:email,
+                    password: password,
+                    account: account,
+                    name:name, 
+                    lastName: lastName,
+                    phone: phone,
+                    otp:otp,
+                    active: false
+                });
+            }else{
+                user = await Seller.create({
+                    email:email,
+                    password: password,
+                    account: account,
+                    name:name, 
+                    lastName: lastName,
+                    phone: phone,
+                    otp:otp,
+                    active: false
+                });
+            }
             var transporter = nodemailer.createTransport({
                 host: 'smtp.gmail.com',
                 port: 465,
@@ -207,7 +223,7 @@ module.exports.signup_post = async (req,res) =>{
                   console.log('Email sent: ' + info.response);
                 }
               });
-               res.status(201).json({email,password,account,otp });
+               res.status(201).json({email, _id: user._id, account });
            }
        }      
 };
@@ -241,25 +257,41 @@ module.exports.logout_get = (req, res) => {
     res.redirect('/');
 }
 
-module.exports.otp_get = (req,res)=>{
-    res.render('otp',{title: "OTP"});
+module.exports.otp_get = async (req,res)=>{
+    const id = req.params.id;
+    let user = await User.findById(id);
+    if(!user){
+        user = await Seller.findById(id);
+    }
+    const link = `/otp/${id}`
+    res.render('otp',{title: "OTP", link: link, account: user.account});
 }
 
 module.exports.otp_post = async (req,res) =>{
- 
-    if(global_otp == req.body.otp){
+    const id = req.params.id
+    const user = await User.findById(id);
+    const account = req.body.account;
 
-        if(global_acc === "buyer"){
-            const user = await User.create({ 
-          email:global_email,password: global_pass,account: global_acc,name:global_name, lastName: global_lastName,phone: global_phone
-             });
+    if(user.otp == req.body.otp){
+
+        if(account === "buyer"){
+            const user = await User.findByIdAndUpdate(id, {
+                $set: {
+                    otp:"",
+                    active:true
+                }
+            })
             const token = createBuyertoken(user._id , user.account);
             res.cookie('buyer',token, {httpOnly: true, maxAge: maxAge * 1000});
             res.status(201).json({user:user._id});
         }else{
-            const seller = await Seller.create({
-                email:global_email,password: global_pass,account: global_acc,name:global_name,lastName: global_lastName,phone: global_phone
-            });
+            const seller = await Seller.findByIdAndUpdate(id, {
+                $set:{
+                    otp:"",
+                    active: true
+                }
+            })
+
           const token = createSellertoken(seller._id, seller.account);
           res.cookie('seller',token,{httpOnly: true, maxAge: maxAge *1000});
           res.status(201).json({seller:seller._id});

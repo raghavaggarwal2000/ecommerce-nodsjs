@@ -33,6 +33,13 @@ const userSchema = new mongoose.Schema({
         required: true,
         default: 'null'
     },
+    otp:{
+        type:Number
+    },
+    active:{
+        type:Boolean,
+        default:true
+    },
     cart:[
         {
             type:Object,

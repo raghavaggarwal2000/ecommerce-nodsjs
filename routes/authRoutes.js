@@ -12,8 +12,8 @@ app.post('/login', authController.login_post);
 
 app.get('/logout',authController.logout_get);
 
-app.get('/otp',protect,authController.otp_get);
-app.post('/otp',authController.otp_post);
+app.get('/otp/:id',protect,authController.otp_get);
+app.post('/otp/:id',authController.otp_post);
 
 app.get('/forgot',protect,authController.forgot_get);
 app.post('/forgot',authController.forgot_post);
