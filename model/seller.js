@@ -38,7 +38,13 @@ const sellerSchema = new mongoose.Schema({
             type:Number,
             default:0
     },
-    
+    otp:{
+        type:Number
+    },
+    active:{
+        type:Boolean,
+        default:true
+    },
     products:[
         {
             type:Object,
