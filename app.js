@@ -16,7 +16,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
     .then(result => {
         console.log('open on localhost:3000')
         console.log('connected');
-        app.listen(3000);
+        app.listen(process.env.PORT || 3000);
     })
     .catch(err => console.log('app.listen', err));
 
