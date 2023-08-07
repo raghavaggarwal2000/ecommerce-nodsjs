@@ -269,9 +269,12 @@ module.exports.otp_get = async (req,res)=>{
 
 module.exports.otp_post = async (req,res) =>{
     const id = req.params.id
-    const user = await User.findById(id);
     const account = req.body.account;
-
+    let user;
+    if(account === "buyer")
+        user = await User.findById(id);
+    else
+        user = await Seller.findById(id);
     if(user.otp == req.body.otp){
 
         if(account === "buyer"){
