@@ -64,7 +64,7 @@ app.post('/productInput',upload.single('image'), async (req,res)=>{
   });
 
     const {name,price,type,description} = req.body;
-  //console.log(req.file);
+  console.log(req.file);
   const imagePath = req.file.filename;
 
   const sellerDetails = await Seller.findById(sellerID);
