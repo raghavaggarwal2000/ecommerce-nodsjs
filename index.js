@@ -9,6 +9,7 @@ const productOutputRoutes = require('./routes/productoutputRoutes');
 const buyerRoutes = require('./routes/buyerRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const Admin = require('./model/admin');
+const path = require('path');
 const app = express();
 
 const dbURI = 'mongodb+srv://clg-project:test1234@clg-project.xksl3.mongodb.net/clg-project?retryWrites=true&w=majority';
@@ -21,6 +22,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
     .catch(err => console.log('app.listen', err));
 
 // this is used to register for view engine
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json()); // to support JSON bodies
