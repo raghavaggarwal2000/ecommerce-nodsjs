@@ -20,7 +20,7 @@
     "mongoose-paginate": "^5.0.3",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.16",
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.22",
     "stripe": "^8.119.0"
   }
 }
