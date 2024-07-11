@@ -34,6 +34,8 @@ app.use(cookieParser());
 // This is used so that front end can access images or css files from public folder
 app.use(express.static("public"));
 
+app.use(express.static(path.join(__dirname, "public")));
+
 //enrcypt pass
 app.use(express.json());
 
